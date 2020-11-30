@@ -20,8 +20,11 @@ const handleCommit = ({add = null, remove = null, list = null}) => {
         console.log('dodaje zadania');
     } else if(remove) {
         console.log("usuwam zadanie");
+        if(typeof remove !== 'string') return console.log('You should write text'.red);
+        handleData()
     } else if(list || list === '') {
         console.log("pokazuje liste");
+        handleData()
     } else {
         console.log("Undefined operation");
     }
