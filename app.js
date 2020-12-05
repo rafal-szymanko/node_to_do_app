@@ -20,6 +20,13 @@ const newCommand = Object.keys(command).reduce((object, key) => {
 
     } else if(type === "add") {
         if(data.find(item => item.title === name)) return console.log("Task already exist");
+        let newTasks = data.map((item, index) => {
+            return {
+                id: index + 1,
+                title: item.title
+            }
+        });
+
         const id = data.length + 1;
 
         const task = {
@@ -27,15 +34,24 @@ const newCommand = Object.keys(command).reduce((object, key) => {
             title: name,
         }
 
-        const newArr = data.concat(task);
+        const newArr = newTasks.concat(task);
 
         fs.writeFileSync('db.json', JSON.stringify(newArr))
         console.log(`Added: ${name}`);
+
     } else if (type === "remove") {
         if(data.find(item => item.title === name)) {
             const newArr = data.filter(item => item.title !== name);
-            fs.writeFileSync('db.json', JSON.stringify(newArr));
+            const updatedIdArr = newArr.map((item, index) => {
+                return {
+                    id: index + 1,
+                    title: item.title,
+                }
+            })
+            
+            fs.writeFileSync('db.json', JSON.stringify(updatedIdArr));
             console.log(`Removed: ${name}`);
+
         } else {
             console.log("Task doesn't exist");
         }
